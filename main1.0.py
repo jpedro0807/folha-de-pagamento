@@ -1,6 +1,6 @@
 funcionario={}
 while True:
-    print("[1]Cadastrar\n[2]Remover Funcionario\n[3]Esibir funcionarios\n[4]Inserir falta")
+    print("[1]Cadastrar\n[2]Remover Funcionario\n[3]Exibir funcionarios\n[4]Inserir falta")
     TelaInicial=int(input("Opção Desejada: "))
 
     if TelaInicial==1:
