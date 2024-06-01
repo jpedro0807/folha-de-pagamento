@@ -60,7 +60,7 @@ def determinar_folha_pagamento(funcionarios, matricula,vendas):
         salario_com_faltas = salario_bruto - desconto_faltas
         comissao=0
         if cadastro['codigo_funcao'] == 101: 
-            vendas = verificação("Digite o volume de vendas do mês: ",float)
+            vendas = cadastro["vendas"]
             comissao=vendas*0.09
             salario_com_faltas += comissao
         
@@ -115,10 +115,10 @@ def determinar_folha_pagamento(funcionarios, matricula,vendas):
 
 
 def gerar_relatorio(funcionarios):
-    print("Matrícula | Nome | Código da Função | Salário Bruto | Salário Líquido")
+    print(f"{'Matrícula'.ljust(10)} | {'Nome'.ljust(20)} | {'Código da Função'.ljust(10)} | {'Salário Bruto'.ljust(10)} | {'Salário Líquido'.ljust(10)}")
     for matricula, info in funcionarios.items():
         salario_liquido, imposto = calcular_salario_liquido(info)
-        print(f"{matricula} | {info['nome']} | {info['codigo_funcao']} | {info['salario_bruto']} | {salario_liquido}")
+        print(f"   {str(matricula).ljust(7)} | {str(info['nome']).ljust(20)} | {str(info['codigo_funcao']).ljust(16)} | {str(info['salario_bruto']).ljust(13)} | {str(salario_liquido).ljust(10)}")
 
 
 def calcular_salario_liquido(funcionario):
@@ -166,7 +166,7 @@ def maior_salario_liquido(funcionarios):
     
 
     print("Matrícula | Nome | Código da Função | Salário bruto |Imposto | Salário Líquido")
-    print(f"{func_max[0]}\t  | {func_max[1]}\t | {func_max[2]}\t\t    | {func_max[3]}\t    | {func_max[4]}    | {func_max[5]}")
+    print(f"{str(func_max[0]).ljust(7)}  | {str(func_max[1]).ljust(20)} | {str(func_max[2]).ljust(16)} | {str(func_max[3]).ljust(13)} | {func_max[4]} | {func_max[5]}")
 
 
 
@@ -188,7 +188,7 @@ def maior_faltas(funcionarios,matricula):
             desconto_faltas = (info['salario_bruto'] / 30) * info['faltas']
             func_max_faltas = (matricula, info['nome'], info['codigo_funcao'], info['faltas'], desconto_faltas)
 
-    print("Matrícula | Nome | Código da Função | Número de Faltas  | Desconto no Salário")
+    print(f"{'Matrícula'.ljust(10)} | {'Nome'.ljust(20)} | {'Código da Função'.ljust(10)} | {'Salário Bruto'.ljust(10)} | {'Salário Líquido'.ljust(10)}")
     print(f"{func_max_faltas[0]}\t  | {func_max_faltas[1]}\t | {func_max_faltas[2]}\t\t    |{func_max_faltas[3]}\t\t\t| {func_max_faltas[4]}")
     
 
@@ -211,6 +211,19 @@ def Adicionar_faltas(funcionarios, matricula):
     else:
         print("Funcionário não encontrado")
 
+def Atualizar_Vendas(funcionarios, matricula):
+    if matricula in funcionarios:
+        cadastro = funcionarios[matricula]
+        
+
+        if cadastro['codigo_funcao'] == 101:
+            vendas = verificação("Digite o volume de vendas: ",float) 
+            cadastro['vendas'] = vendas
+        print(f"Funcionário {cadastro['nome']} teve o volume de vendas atualizado no valor de {vendas}.")
+        
+    else:
+        print("Funcionário não encontrado")
+
 #def responsavel pela interface principal
 def menu():
     while True:
@@ -224,6 +237,7 @@ def menu():
         print("[5]. Imprimir Funcionário com Maior Salário Líquido")
         print("[6]. Imprimir Funcionário com Maior Número de Faltas")
         print("[7]. Inserir faltas")
+        print("[8]. Atualizar Volume de Vendas")
         print("[0]. Sair")
         
         opcao = verificação("Escolha uma opção: ",int)
@@ -280,6 +294,13 @@ def menu():
             print("-" * 55)
             matricula = verificação("Matrícula: ",int)
             Adicionar_faltas(funcionarios,matricula)
+
+        elif opcao==8:
+            print("_" * 55)
+            print("\t   Painel De Vendas")
+            print("-" * 55)
+            matricula = verificação("Matrícula: ",int)
+            Atualizar_Vendas(funcionarios,matricula)
 
         elif opcao == 0:
             break
