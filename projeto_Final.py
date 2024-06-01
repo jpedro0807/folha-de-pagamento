@@ -60,7 +60,7 @@ def determinar_folha_pagamento(funcionarios, matricula,vendas):
         salario_com_faltas = salario_bruto - desconto_faltas
         comissao=0
         if cadastro['codigo_funcao'] == 101: 
-            vendas = verificação("Digite o volume de vendas do mês: ",float)
+            vendas = cadastro["vendas"]
             comissao=vendas*0.09
             salario_com_faltas += comissao
         
